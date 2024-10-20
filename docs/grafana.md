@@ -1,7 +1,7 @@
 # Grafana
 
-What is Grafana ? From their homepage 
-[![](images/ico/book_16.png) grafana.com](https://grafana.com) :  
+What is Grafana ? From their homepage
+[![](images/ico/book_16.png) grafana.com](https://grafana.com) :
 
 > Used by thousands of companies to monitor everything from infrastructure, applications, and power plants to beehives.
 
@@ -10,11 +10,12 @@ They have an online demo to browse and play:
 
 ## Preparation
 
-Prerequisites are: 
+Prerequisites are:
+
 - ![](images/ico/color/homekube_16.png)[ Prometheus](prometheus.md) for data aquisition / scraping
 - ![](images/ico/color/homekube_16.png)[ Helm](helm.md) (already installed for Prometheus)
-- A storage provisioner to fullfill storage claims (e.g. 
-![](images/ico/color/homekube_16.png)[ NFS Storage](nfs.md)) (already installed for Prometheus)
+- A storage provisioner to fullfill storage claims (e.g.
+  ![](images/ico/color/homekube_16.png)[ NFS Storage](nfs.md)) (already installed for Prometheus)
 
 ## Installation
 
@@ -25,10 +26,10 @@ Grafana installation and configuration involves a couple of steps and there are 
 - installing dashboards
 
 In many cases you may want to only install the basic grafana and then configure/install datasources and dashboards
-through the Grafana ui. There are so many options from very easy to very complex and there is also a 
+through the Grafana ui. There are so many options from very easy to very complex and there is also a
 [![](images/ico/book_16.png) public catalog of dashboards](https://grafana.com/grafana/dashboards).
 
-These installation steps try to keep the manual effort as low as possible and 
+These installation steps try to keep the manual effort as low as possible and
 will install some dashboards known to work in the context of this tutorial. We will use the
 [![](images/ico/color/helm_16.png) ![](images/ico/github_16.png) grafana/grafana](https://github.com/helm/charts/tree/master/stable/grafana)
 chart.
@@ -54,7 +55,7 @@ grafana/grafana
 ```
 
 Actually a lot of configuration details are "hidden" in the `datasource-dashboards.yaml`. See the comments there.
-We enable persistence and set a storage class. We also provide credentials of our choice for the admin user. 
+We enable persistence and set a storage class. We also provide credentials of our choice for the admin user.
 
 Installer response:
 
@@ -82,30 +83,36 @@ NOTES:
 ```
 
 Before we follow the installers instructions lets first check if the installation was successful.
+
 ```bash
 kubectl get po -n grafana --watch
 ```
-Depending on the number of pre-configured dashboards it can take quite a while 
+
+Depending on the number of pre-configured dashboards it can take quite a while
 until all the dashboards are configured and grafana shows **STATUS Running** and **READY 1/1**:
- 
+
 ```text
 NAME                       READY   STATUS    RESTARTS   AGE
 grafana-6cb8cb8f8f-gtbl6   1/1     Running   0          22m
 ```
+
 If you see `STATUS CrashLoopBackoff` or another status for some time then consult the
 ![](images/ico/color/homekube_16.png)[ troubleshooting tips](grafana-notes.md#troubleshooting).
 
 Lets follow the installers instructions:
-1) Get your 'admin' user password ...  
-We **can ignore this** because the password was already supplied in the `kubectl create secret ...` instruction.  
-Unfortunately the message prompt 
-![](images/ico/color/homekube_16.png)[ is not accurate](grafana-notes.md#installation-response-message).
-2) Execute the instructions but note the appended **--address=0.0.0.0**   
+
+1. Get your 'admin' user password ...  
+   We **can ignore this** because the password was already supplied in the `kubectl create secret ...` instruction.  
+   Unfortunately the message prompt
+   ![](images/ico/color/homekube_16.png)[ is not accurate](grafana-notes.md#installation-response-message).
+2. Execute the instructions but note the appended **--address=0.0.0.0**
+
 ```bash
 export POD_NAME=$(kubectl get pods --namespace grafana -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=grafana" -o jsonpath="{.items[0].metadata.name}")
 kubectl --namespace grafana port-forward $POD_NAME 3000 --address=0.0.0.0
-```  
-Next open a browser on **http://192.168.1.100:3000** login and explore the grafana dashboard.
+```
+
+Next open a browser on **http://192.168.254.56:3000** login and explore the grafana dashboard.
 
 In the topmost bar click on `Home` and from the selection pick  
 **1 Node Exporter for Prometheus Dashboard English Version**
@@ -114,14 +121,14 @@ In the topmost bar click on `Home` and from the selection pick
 
 ## Public Exposure
 
-Optionally deploy the Grafana UI as an Ingress to the public. We do it here for the purpose of demonstration but of course 
+Optionally deploy the Grafana UI as an Ingress to the public. We do it here for the purpose of demonstration but of course
 in general thats not recommended for security reasons.
 
 ```bash
 kubectl apply -f ~/homekube/src/grafana/ingress-grafana.yaml
 ```
 
-Now access 
+Now access
 [![](images/ico/color/homekube_link_16.png) https://grafana.homekube.org](https://grafana.homekube.org)
 with **demo/demo** credentials and browse the dashboard.
 
@@ -137,10 +144,10 @@ helm list --all-namespaces
 
 ## Next steps
 
-Browse and check the options of your grafana dashboard. Then you might want to explore the 
+Browse and check the options of your grafana dashboard. Then you might want to explore the
 ![](images/ico/color/homekube_16.png)[ workload behaviour of your cluster](workload-testing.md).
 
 ## Tutorials
 
- - [![](images/ico/color/youtube_16.png) ![](images/ico/terminal_16.png) 34:09 Prometheus monitoring for Kubernetes Cluster and Grafana visualization](https://www.youtube.com/watch?v=CmPdyvgmw-A)  
- [[Just me and Opensource](https://www.youtube.com/channel/UC6VkhPuCCwR_kG0GExjoozg)] 
+- [![](images/ico/color/youtube_16.png) ![](images/ico/terminal_16.png) 34:09 Prometheus monitoring for Kubernetes Cluster and Grafana visualization](https://www.youtube.com/watch?v=CmPdyvgmw-A)  
+  [[Just me and Opensource](https://www.youtube.com/channel/UC6VkhPuCCwR_kG0GExjoozg)]

@@ -2,15 +2,13 @@
 
 [![Dashboard](images/dashboard.png)](https://dashboard.homekube.org/#/overview?namespace=_all "Thats the live dashboard you'lll install on your own server")
 
-We do not use the MicroK8s dashboard installation manifests for a 
+We do not use the MicroK8s dashboard installation manifests for a
 ![](images/ico/color/homekube_16.png)[ couple of reasons](dashboard-background.md) .  
 In case its already installed we will **disable** it first.
 
-``
-microk8s disable dashboard
-``
+`microk8s disable dashboard`
 
-Instead we simply install the upstream 
+Instead we simply install the upstream
 [![](images/ico/github_16.png) community version](https://github.com/kubernetes/dashboard#kubernetes-dashboard)
 
 ```bash
@@ -20,21 +18,22 @@ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard --version 7.5.0
 ```
 
-Lets quickly check the installation. `192.168.1.100` is our server ip when following the prerequisites.
+Lets quickly check the installation. `192.168.254.56` is our server ip when following the prerequisites.
 
 ```bash
 kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 10443:443 --address 0.0.0.0
-``` 
+```
+
 Port-forward is just a temporary solution for development. When the session is terminated the port is no longer accessible.
-Alternatively you might prefer a 
+Alternatively you might prefer a
 ![](images/ico/color/homekube_16.png)[ permanent solution.](dashboard-background.md#exposing-dashboard) .
 
-In your **local browser open `https://192.168.1.100:10443`**
+In your **local browser open `https://192.168.254.56:10443`**
 
 A warning about an untrusted certificate will show up and upon confirmation **in Firefox**
-you'd see the dashboards sign-in page. This may not work for you. 
-![](images/ico/color/homekube_16.png)[ Read why and troubleshoot ...](dashboard-background.md#troubleshoot-certificates) 
- 
+you'd see the dashboards sign-in page. This may not work for you.
+![](images/ico/color/homekube_16.png)[ Read why and troubleshoot ...](dashboard-background.md#troubleshoot-certificates)
+
 ![](images/dashboard-signin.png)
 
 We will create appropriate ![](images/ico/color/homekube_16.png)[ certificates ](cert-manager.md)
@@ -49,16 +48,18 @@ cd ~/homekube/src/dashboard
 kubectl apply -f create-admin-user.yaml
 kubectl apply -f create-simple-user.yaml
 ```
-These manifests create the required 
-[![](images/ico/color/kubernetes_16.png) `clusterrolebindings` `serviceaccounts` and their `secrets`](https://kubernetes.io/docs/reference/access-authn-authz/rbac/). Now we inspect the created secrets (account tokens) 
+
+These manifests create the required
+[![](images/ico/color/kubernetes_16.png) `clusterrolebindings` `serviceaccounts` and their `secrets`](https://kubernetes.io/docs/reference/access-authn-authz/rbac/). Now we inspect the created secrets (account tokens)
 ![](images/ico/color/homekube_16.png)[ manually](dashboard-background.md#get-token) or execute the script:
 
 ```bash
 name=simple-user # or 'admin-user'
 namespace=kubernetes-dashboard
 token=$(kubectl -n $namespace get secret | grep ${name}-token | cut -d " " -f1)
-kubectl -n $namespace describe secret $token 
-``` 
+kubectl -n $namespace describe secret $token
+```
+
 From the output copy the `token:` **encrypted secret** in the DATA section (with a double click) to the clipboard and paste it
 into `Enter token *` input field and sign in.
 
@@ -89,12 +90,11 @@ If you want to repeat the steps as an exercise
 
 ## Next steps
 
-Lets improve the dashboard access via 
+Lets improve the dashboard access via
 ![](images/ico/color/homekube_16.png)[ Ingress](ingress.md).
-
 
 ## Tutorials
 
- - [![](images/ico/color/youtube_16.png) ![](images/ico/terminal_16.png) 24:23 Install Kubernetes Dashboard Web UI](https://youtu.be/brqAMyayjrI?t=969)  
- Short introduction on how to use the ui (from ~min 16)  
- [[Just me and Opensource](https://www.youtube.com/channel/UC6VkhPuCCwR_kG0GExjoozg)] 
+- [![](images/ico/color/youtube_16.png) ![](images/ico/terminal_16.png) 24:23 Install Kubernetes Dashboard Web UI](https://youtu.be/brqAMyayjrI?t=969)  
+  Short introduction on how to use the ui (from ~min 16)  
+  [[Just me and Opensource](https://www.youtube.com/channel/UC6VkhPuCCwR_kG0GExjoozg)]
