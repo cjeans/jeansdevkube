@@ -5,7 +5,7 @@
 # . ./homekube.env.sh
 # set +a
 
-HOMEKUBE_PUBLIC_IPS=10.1.189.200-10.1.189.201 # public entry points for metallb load balancer
+HOMEKUBE_PUBLIC_IPS=10.1.189.200-10.1.189.210 # public entry points for metallb load balancer
 HOMEKUBE_DOMAIN=jeansdev.org  # the public domain of this site
 
 # Settings for NFS server
