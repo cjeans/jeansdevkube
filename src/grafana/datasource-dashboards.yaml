@@ -6,13 +6,13 @@ datasources:
   datasources.yaml:
     apiVersion: 1
     datasources:
-    - name: Prometheus
-      type: prometheus
-      orgId: 1
-      url: http://prometheus-server.prometheus
-      isDefault: true
-      version: 1
-      editable: true
+      - name: Prometheus
+        type: prometheus
+        orgId: 1
+        url: http://prometheus-server.prometheus
+        isDefault: true
+        version: 1
+        editable: true
 
 ## Configure grafana dashboard providers
 ## ref: https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards
@@ -23,14 +23,14 @@ dashboardProviders:
   dashboardproviders.yaml:
     apiVersion: 1
     providers:
-    - name: prometheus
-      orgId: 1
-      folder: ''
-      type: file
-      disableDeletion: false
-      editable: true
-      options:
-        path: /var/lib/grafana/dashboards/prometheus
+      - name: prometheus
+        orgId: 1
+        folder: ""
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/prometheus
 
 ## Configure grafana dashboard to import
 ## NOTE: To use dashboards you must also enable/configure dashboardProviders
@@ -45,7 +45,7 @@ dashboards:
     nginx-dashboard-request-handling:
       # Thats the original that did not work properly:
       #url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
-      # Thats the modified version before transferring to homekube.org
+      # Thats the modified version before transferring to jeansdev.org
       #url: https://gist.githubusercontent.com/a-hahn/6b5ef83b747da5f8ba087eb81e18ad08/raw/4f024ee6d3ca158ee2c7febe7e03e507c4c500df/nginx-request-handling-performance-2m.json
       url: https://raw.githubusercontent.com/homekube/homekube/master/src/grafana/dashboards/nginx-request-handling-performance-2m.json
     grafana-node-exporter:

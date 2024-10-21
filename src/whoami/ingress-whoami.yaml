@@ -7,7 +7,7 @@ metadata:
   namespace: whoami
 spec:
   rules:
-    - host: whoami.homekube.org
+    - host: whoami.jeansdev.org
       http:
         paths:
           - backend:

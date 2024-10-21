@@ -30,7 +30,7 @@ spec:
             - --cookie-expire=30m
             - --insecure-oidc-allow-unverified-email=true
             - --set-authorization-header=true
-            - --oidc-issuer-url=https://keycloak.auth.homekube.org/realms/homekube
+            - --oidc-issuer-url=https://keycloak.auth.jeansdev.org/realms/homekube
             - --oidc-email-claim=email
             - --oidc-groups-claim=groups
             # - --show-debug-on-error=true
@@ -51,7 +51,6 @@ spec:
             - containerPort: 4180
               protocol: TCP
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -67,4 +66,3 @@ spec:
       targetPort: 4180
   selector:
     k8s-app: oauth2-proxy
-

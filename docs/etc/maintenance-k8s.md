@@ -1,23 +1,26 @@
-
 # Helpers
+
 ```
 kubectl apply -f https://k8s.io/examples/admin/dns/dnsutils.yaml
 ```
 
 Holding snaps forever
+
 ```
 snap refresh --hold=forever
 ```
 
 # Invalid certificates
-Trouble with invalid certificates when executing ``kubectl logs`` and ``kubectl exec`` for kubelets from version ~1.30 ?
+
+Trouble with invalid certificates when executing `kubectl logs` and `kubectl exec` for kubelets from version ~1.30 ?
 see https://github.com/canonical/microk8s/issues/4522  
 see also https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/
 
 This advice seemed to help (with restart and delay however)  
-``the line "--kubelet-certificate-authority=${SNAP_DATA}/certs/ca.crt" can be removed from "/var/snap/microk8s/current/args/kube-apiserver"``
+`the line "--kubelet-certificate-authority=${SNAP_DATA}/certs/ca.crt" can be removed from "/var/snap/microk8s/current/args/kube-apiserver"`
 
 kube-apiserver args as a reference:
+
 ```bash
 root@homekube:/var/snap/microk8s/current/args# cat kube-apiserver
 --cert-dir=${SNAP_DATA}/certs
@@ -56,7 +59,7 @@ root@homekube:/var/snap/microk8s/current/args# cat kube-apiserver
 --kubelet-preferred-address-types=InternalIP,Hostname,InternalDNS,ExternalDNS,ExternalIP
 
 # oidc
---oidc-issuer-url=https://keycloak.auth.homekube.org/realms/homekube
+--oidc-issuer-url=https://keycloak.auth.jeansdev.org/realms/homekube
 --oidc-client-id=homekube-client
 --oidc-username-claim=email
 --oidc-groups-claim=groups

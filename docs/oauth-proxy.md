@@ -13,17 +13,19 @@ Requirements:
 ## Tasks
 
 ### Kube-Apiserver
+
 The kube-apiserver needs to be configured to accept authorizations through the oidc provider
 
-Append these lines to ``/var/snap/microk8s/current/args/kube-apiserver`` and then restart.  
-``microk8s stop`` and ``microk8s start``.  
+Append these lines to `/var/snap/microk8s/current/args/kube-apiserver` and then restart.  
+`microk8s stop` and `microk8s start`.  
 See https://kubernetes.io/docs/reference/access-authn-authz/authentication/#configuring-the-api-server
+
 ```
 # oidc config to append the kube-apiserver config
 # /var/snap/microk8s/current/args/kube-apiserver
 
-# edit domain of your auth server, for example auth.sso.homekube.org 
---oidc-issuer-url=https://keycloak.auth.homekube.org/realms/homekube
+# edit domain of your auth server, for example auth.sso.jeansdev.org
+--oidc-issuer-url=https://keycloak.auth.jeansdev.org/realms/homekube
 --oidc-client-id=homekube-client
 --oidc-username-claim=email
 --oidc-groups-claim=groups
@@ -37,13 +39,14 @@ https://devopscube.com/kubernetes-kubeconfig-file/
 
 ### Test with access tokens
 
-The ``microk8s kubectl`` uses the configuration from ``~/.kube/config`` and does not accept ``--token=some_id_token`` parameters in its default configuration.
-Install an unmodified version of kubectl via snap, e.g. ``snap install kubectl --classic``.  
+The `microk8s kubectl` uses the configuration from `~/.kube/config` and does not accept `--token=some_id_token` parameters in its default configuration.
+Install an unmodified version of kubectl via snap, e.g. `snap install kubectl --classic`.  
 This version can then be parametrized.
 It can be installed for **remote access to your cluster** on any workstation anywhere provided it is accessible from your local network. See also https://microk8s.io/docs/working-with-kubectl  
 Then retrieve the **access token** from the keycloak server:
+
 ```
-curl -X POST https://keycloak.auth.homekube.org/realms/homekube/protocol/openid-connect/token \
+curl -X POST https://keycloak.auth.jeansdev.org/realms/homekube/protocol/openid-connect/token \
 -H "Content-Type: application/x-www-form-urlencoded" \
 -d "username=auth-user" \
 -d "password=auth-password" \
@@ -56,22 +59,22 @@ You can inspect tokens online on https://jwt.io/
 See also https://gatillos.com/yay/2022/10/02/blog-how-do-tokens-work-in-Kubernetes.html
 
 Note: If curl does not exist you might use e.g.
+
 ```
 kubectl run -it --rm --image=curlimages/curl curly -- sh
 ```
 
-When everything is setup properly you can access the dashboard https://dashboard.auth.homekube.org/#/pod?namespace=_all
-
+When everything is setup properly you can access the dashboard https://dashboard.auth.jeansdev.org/#/pod?namespace=_all
 
 ## Logging out
 
-[Invalidate session](https://keycloak.auth.homekube.org/realms/homekube/protocol/openid-connect/logout)
+[Invalidate session](https://keycloak.auth.jeansdev.org/realms/homekube/protocol/openid-connect/logout)
 
-[Sign out dashbaord](https://dashboard.auth.homekube.org/oauth2/sign_out)    
-[Sign out whoami](https://whoami.auth.homekube.org/oauth2/sign_out)
+[Sign out dashbaord](https://dashboard.auth.jeansdev.org/oauth2/sign_out)  
+[Sign out whoami](https://whoami.auth.jeansdev.org/oauth2/sign_out)
 
-[Sign out & clear cookies](https://dashboard.auth.homekube.org/oauth2/sign_out?rd=https%3A%2F%2Fkeycloak.auth.homekube.org%2Frealms%2Fhomekube%2Fprotocol%2Fopenid-connect%2Flogout)    
-[Sign out an clear cookies](https://whoami.auth.homekube.org/oauth2/sign_out?rd=https%3A%2F%2Fkeycloak.auth.homekube.org%2Frealms%2Fhomekube%2Fprotocol%2Fopenid-connect%2Flogout)
+[Sign out & clear cookies](https://dashboard.auth.jeansdev.org/oauth2/sign_out?rd=https%3A%2F%2Fkeycloak.auth.jeansdev.org%2Frealms%2Fhomekube%2Fprotocol%2Fopenid-connect%2Flogout)  
+[Sign out an clear cookies](https://whoami.auth.jeansdev.org/oauth2/sign_out?rd=https%3A%2F%2Fkeycloak.auth.jeansdev.org%2Frealms%2Fhomekube%2Fprotocol%2Fopenid-connect%2Flogout)
 
 ## Resources and links
 
@@ -83,18 +86,17 @@ https://blog.heptio.com/on-securing-the-kubernetes-dashboard-16b09b1b7aca
 https://github.com/oauth2-proxy/oauth2-proxy/issues/1213  
 https://www.lakshminp.com/microk8s-oidc/  
 https://medium.com/elmo-software/kubernetes-authenticating-to-your-cluster-using-keycloak-eba81710f49b  
-https://medium.com/@charled.breteche/kind-keycloak-securing-kubernetes-api-server-with-oidc-371c5faef902  
-
+https://medium.com/@charled.breteche/kind-keycloak-securing-kubernetes-api-server-with-oidc-371c5faef902
 
 https://www.keycloak.org/docs/latest/authorization_services/index.html  
-https://kubernetes.io/docs/reference/access-authn-authz/rbac/#kubectl-auth-reconcile  
+https://kubernetes.io/docs/reference/access-authn-authz/rbac/#kubectl-auth-reconcile
 
 https://github.com/oauth2-proxy/oauth2-proxy  
 https://oauth2-proxy.github.io/oauth2-proxy/docs/features/endpoints/  
 https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview/  
-https://github.com/kubernetes/ingress-nginx/tree/main  
+https://github.com/kubernetes/ingress-nginx/tree/main
 
-https://keycloak.auth.homekube.org/realms/homekube/.well-known/openid-configuration
+https://keycloak.auth.jeansdev.org/realms/homekube/.well-known/openid-configuration
 
 https://quay.io/repository/oauth2-proxy/oauth2-proxy?tab=tags&tag=latest
 

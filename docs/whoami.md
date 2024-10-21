@@ -149,7 +149,7 @@ forward incoming requests in a round-robin manner to its pods.
 ## Public service
 
 For public exposure on
-[![](images/ico/color/homekube_link_16.png) https://whoami.homekube.org](https://whoami.homekube.org)
+[![](images/ico/color/homekube_link_16.png) https://whoami.jeansdev.org](https://whoami.jeansdev.org)
 there is an Ingress created:
 
 ```bash
@@ -161,13 +161,13 @@ Now visting the webpage and repeatedly refreshing its contents we will see the r
 You will also be able to test it locally when using the Igress' LoadBalancers IP (should be 192.168.1.200) e.g.
 
 ```bash
-curl -kX GET 'https://192.168.1.200' -H 'host: whoami.homekube.org'
+curl -kX GET 'https://192.168.1.200' -H 'host: whoami.jeansdev.org'
 ```
 
 Once ![](images/ico/color/homekube_16.png)[ cert-manager](cert-manager.md) is installed and provides valid certificates we can just execute:
 
 ```bash
-curl https://whoami.homekube.org
+curl https://whoami.jeansdev.org
 ```
 
 ## Tutorials

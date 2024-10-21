@@ -1,6 +1,6 @@
 # Keycloak Identity and Access Management
 
-Keycloak is a very powerful and well established solution for providing IAM solutions for all kind of services.  
+Keycloak is a very powerful and well established solution for providing IAM solutions for all kind of services.
 
 [![](images/keycloak/0-keycloak-org.png)](https://www.keycloak.org)
 
@@ -8,11 +8,11 @@ Keycloak is a very powerful and well established solution for providing IAM solu
 
 Requirements are:
 
-- ![](images/ico/color/homekube_16.png)[ Postgres database](postgres.md) 
+- ![](images/ico/color/homekube_16.png)[ Postgres database](postgres.md)
 
 ## Installation
 
-As a postgres admin we create a keycloak user and role and the keycloak database  
+As a postgres admin we create a keycloak user and role and the keycloak database
 
 ```bash
 cd ~/homekube/src/keycloak
@@ -28,13 +28,13 @@ Type "help" for help.
 
 keycloak=> \l
                                                       List of databases
-   Name    | Owner | Encoding | Locale Provider |  Collate   |   Ctype    | ICU Locale | ICU Rules |    Access privileges    
+   Name    | Owner | Encoding | Locale Provider |  Collate   |   Ctype    | ICU Locale | ICU Rules |    Access privileges
 -----------+-------+----------+-----------------+------------+------------+------------+-----------+-------------------------
- homekube  | admin | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           | 
+ homekube  | admin | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           |
  keycloak  | admin | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           | =Tc/admin              +
            |       |          |                 |            |            |            |           | admin=CTc/admin        +
            |       |          |                 |            |            |            |           | keycloak_role=CTc/admin
- postgres  | admin | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           | 
+ postgres  | admin | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           |
  template0 | admin | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           | =c/admin               +
            |       |          |                 |            |            |            |           | admin=CTc/admin
  template1 | admin | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           | =c/admin               +
@@ -48,7 +48,6 @@ root@homekube:~/homekube/src/keycloak#
 Now lets complete the installation. During initial setup all keycloak tables will be created automatically.
 Lets execute the installation script.  
 **Reminder** to (modify and) set [environment variables first](../src/homekube.env.sh) !
-
 
 ```bash
 set -a
@@ -77,14 +76,14 @@ replicaset.apps/keycloak-74dd784dd9   1         1         1       2d1h
 Check that keycloaks tables have been created
 
 ```bash
-psql (16.3 (Debian 16.3-1.pgdg120+1))                                                                                                                                                                                                            
-Type "help" for help.                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                 
-keycloak=> \dl                                                                                                                                                                                                                                   
-      Large objects                                                                                                                                                                                                                              
- ID | Owner | Description                                                                                                                                                                                                                        
-                     List of relations                                                                                                                                                                                                           
- Schema |             Name              | Type  |  Owner   
+psql (16.3 (Debian 16.3-1.pgdg120+1))
+Type "help" for help.
+
+keycloak=> \dl
+      Large objects
+ ID | Owner | Description
+                     List of relations
+ Schema |             Name              | Type  |  Owner
 --------+-------------------------------+-------+----------
  public | admin_event_entity            | table | keycloak
  public | associated_policy             | table | keycloak
@@ -100,7 +99,7 @@ keycloak=> \dl
 ```
 
 Now lets check if we are able to open the keycloak admin ui. It should be available as specified in the [keycloak ingress](../src/keycloak/ingress.yaml) definition
-**keycloak.${HOMEKUBE_DOMAIN}** e.g. https://keycloak.auth.homekube.org  
+**keycloak.${HOMEKUBE_DOMAIN}** e.g. https://keycloak.auth.jeansdev.org
 
 Username: **admin**  
 Password: **${HOMEKUBE_KEYCLOAK_PASSWORD}**
@@ -109,8 +108,8 @@ Now you can proceed with the [configuration](keycloak-configuration.md).
 
 ## Inspection and Deinstallation
 
-If you are curious then have a deeper look into your database. 
-Here is a list of commands of the [psql command line tool](https://www.postgresql.org/docs/current/app-psql.html) 
+If you are curious then have a deeper look into your database.
+Here is a list of commands of the [psql command line tool](https://www.postgresql.org/docs/current/app-psql.html)
 Be careful. Its easy to riun the installation.
 
 ```
@@ -118,6 +117,7 @@ kubectl exec postgres-0 -it -n postgres -- psql -U admin -d postgres
 ```
 
 Drop DB and users
+
 ```
 envsubst < drop-keycloak.sql | kubectl exec postgres-0 -i -n postgres -- psql -U admin -d postgres
 ```
@@ -130,12 +130,14 @@ Use a helper psql client:
 kubectl run -it postgres-client --image=postgres:16 --restart=Never -- bash
 ```
 
-### Backup 
+### Backup
+
 ```bash
 pg_dump -f /tmp/keycloak.backup --host <from-host-ip> --port "30100" --username "keycloak" --format=c -v keycloak
 ```
 
 ### Restore
+
 ```bash
 psql -U admin -d postgres -c "drop database keycloak;"
 psql -U admin -d postgres -c "create database keycloak;"

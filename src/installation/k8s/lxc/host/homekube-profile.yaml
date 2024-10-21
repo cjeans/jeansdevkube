@@ -1,4 +1,4 @@
-# Mapping hosts path with homekube.org sources into containers
+# Mapping hosts path with jeansdev.org sources into containers
 # This is roughly equivalent to
 # lxc config device add <CONTAINER-NAME> install disk path=/root/install source=~/homekube/src/installation/k8s/lxc/node
 # lxc config device add <CONTAINER-NAME> homekube disk path=/root/homekube source=~/homekube/src/

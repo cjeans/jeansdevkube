@@ -129,7 +129,7 @@ kubectl apply -f ~/homekube/src/grafana/ingress-grafana.yaml
 ```
 
 Now access
-[![](images/ico/color/homekube_link_16.png) https://grafana.homekube.org](https://grafana.homekube.org)
+[![](images/ico/color/homekube_link_16.png) https://grafana.jeansdev.org](https://grafana.jeansdev.org)
 with **demo/demo** credentials and browse the dashboard.
 
 ## Cleanup
