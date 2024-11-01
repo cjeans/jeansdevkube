@@ -13,5 +13,10 @@ devices:
     path: /root/homekube
     source: /home/ubuntu/homekube/src
     type: disk
-name: homekube
+  # Add the following lines to set CPU and memory limits
+  limits.cpu:
+    count: 4
+  limits.memory:
+    limit: 12GB
+name: kmaster
 used_by: []

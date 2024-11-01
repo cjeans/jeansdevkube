@@ -89,3 +89,8 @@ More ![](images/ico/color/homekube_16.png)[ about AddOns ...](microk8s-addons.md
 ## Next steps
 
 Lets proceed installing the ![](images/ico/color/homekube_16.png)[ kubernetes dashboard](dashboard.md)
+
+```
+lxc config set <container-name> limits.cpu 4
+lxc config set <container-name> limits.memory 12GB
+```

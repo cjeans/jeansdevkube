@@ -27,3 +27,5 @@ controller:
 EOF
 echo "Installation done ingress"
 fi # end of installation of nginx webservice
+
+sudo ./iptables-rules.sh
