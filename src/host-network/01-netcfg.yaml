@@ -1,0 +1,23 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp1s0f0:
+      dhcp4: no
+      dhcp6: no
+  wifis:
+    wlp2s0:
+      dhcp4: no
+      access-points:
+        "jakenet1g":
+          password: "jakejeans9691"
+      optional: true
+  bridges:
+    br0:
+      interfaces:
+        - enp1s0f0
+      dhcp4: yes
+      dhcp6: no
+      parameters:
+        stp: false
+        forward-delay: 0

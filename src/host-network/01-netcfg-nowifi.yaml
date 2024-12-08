@@ -1,0 +1,13 @@
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    enp1s0f0:
+      dhcp4: yes
+      macaddress: a8:20:66:12:57:62
+  wifis:
+    wlp2s0:
+      dhcp4: no
+      access-points:
+        "jakenet1g":
+          password: "jakejeans9691"
